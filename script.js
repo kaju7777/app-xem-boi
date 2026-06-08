@@ -1,41 +1,40 @@
-window.onload = function() {
+document.addEventListener('DOMContentLoaded', () => {
+    // Tải theme và lịch sử
     loadHistory();
     if (localStorage.getItem("theme") === "light") {
         document.body.classList.add("light-theme");
     }
-};
 
-// Đổi Theme
-document.getElementById("themeBtn").addEventListener("click", function() {
-    document.body.classList.toggle("light-theme");
-    localStorage.setItem("theme", document.body.classList.contains("light-theme") ? "light" : "dark");
-});
+    // Nút đổi theme
+    document.getElementById("themeBtn").addEventListener("click", () => {
+        document.body.classList.toggle("light-theme");
+        localStorage.setItem("theme", document.body.classList.contains("light-theme") ? "light" : "dark");
+    });
 
-// Logic xem bói
-document.getElementById("xemBoiBtn").addEventListener("click", function() {
-    const name = document.getElementById("nameInput").value.trim();
-    if (!name) return alert("Nhập tên đi bạn ơi!");
+    // Logic bói
+    document.getElementById("xemBoiBtn").addEventListener("click", () => {
+        const name = document.getElementById("nameInput").value.trim();
+        if (!name) return alert("Nhập tên đi bạn ơi!");
 
-    const resultDisplay = document.getElementById("result");
-    const container = document.querySelector(".container");
-    
-    // Phát âm thanh
-    const audio = new Audio('magic.mp3');
-    audio.play().catch(() => {});
+        const resultDisplay = document.getElementById("result");
+        const container = document.querySelector(".container");
+        const audio = new Audio('magic.mp3');
+        audio.play().catch(() => {});
 
-    container.classList.add('shake');
-    resultDisplay.textContent = "🔮 Đang kết nối vũ trụ...";
-    
-    setTimeout(() => {
-        container.classList.remove('shake');
-        const ketQua = ["May mắn bất ngờ!", "Sắp có tin vui tiền bạc.", "Gặp quý nhân.", "Cẩn thận đi đường.", "Có người thầm thương."];
-        let sum = 0;
-        for (let i = 0; i < name.length; i++) sum += name.charCodeAt(i);
-        const prediction = ketQua[sum % ketQua.length];
+        container.classList.add('shake');
+        resultDisplay.textContent = "🔮 Đang kết nối vũ trụ...";
         
-        resultDisplay.textContent = `${name}: ${prediction}`;
-        saveToHistory(name, prediction);
-    }, 2000);
+        setTimeout(() => {
+            container.classList.remove('shake');
+            const ketQua = ["May mắn bất ngờ!", "Sắp có tin vui tiền bạc.", "Gặp quý nhân.", "Cẩn thận đi đường.", "Có người thầm thương."];
+            let sum = 0;
+            for (let i = 0; i < name.length; i++) sum += name.charCodeAt(i);
+            const prediction = ketQua[sum % ketQua.length];
+            
+            resultDisplay.textContent = `${name}: ${prediction}`;
+            saveToHistory(name, prediction);
+        }, 2000);
+    });
 });
 
 function saveToHistory(name, prediction) {
