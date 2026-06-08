@@ -11,18 +11,18 @@ const tarotDatabase = [
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Theme toggle
+    // 1. Theme
     document.getElementById("themeBtn").addEventListener("click", () => {
         document.body.classList.toggle("light-theme");
     });
 
-    // Nhạc nền
+    // 2. Nhạc
     const bgMusic = document.getElementById("bgMusic");
     document.getElementById("musicToggleBtn").addEventListener("click", () => {
         bgMusic.paused ? bgMusic.play() : bgMusic.pause();
     });
 
-    // Xem bài
+    // 3. Xem bài
     document.getElementById("xemBoiBtn").addEventListener("click", () => {
         const name = document.getElementById("nameInput").value.trim();
         const dob = document.getElementById("dobInput").value;
@@ -30,9 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (!name || !dob || !num) return alert("Vui lòng nhập đầy đủ thông tin!");
 
-        // Lấy cung hoàng đạo
+        // Xử lý Cung hoàng đạo
         const [year, month, day] = dob.split('-').map(Number);
         const zodiac = getZodiacSign(day, month);
+        console.log("Cung của bạn là:", zodiac); // Kiểm tra trong F12 Console
 
         // Hiệu ứng lắc
         const container = document.getElementById("card-container");
@@ -52,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         setTimeout(() => {
             document.getElementById("card-img").src = selected.img;
+            // HIỆN KẾT QUẢ
             document.getElementById("result").textContent = `${name} (${zodiac}): ${selected.name}`;
             document.getElementById("advice").textContent = selected.desc;
         }, 400);
