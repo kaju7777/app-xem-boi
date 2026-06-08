@@ -25,16 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const num = parseInt(document.getElementById("luckyNumInput").value);
         
         if (!name || !dob || !num) return alert("Vui lòng nhập đầy đủ thông tin!");
-// Khi bắt đầu bấm xem
-const container = document.getElementById("card-container");
-container.style.transition = "transform 0.1s";
-container.style.transform = "rotate(5deg)"; // Lắc nhẹ
-setTimeout(() => { container.style.transform = "rotate(-5deg)"; }, 100);
-setTimeout(() => { container.style.transform = "rotate(0deg)"; }, 200);
+
         const sumDob = dob.replace(/-/g, '').split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
         const selected = tarotDatabase[(sumDob + num) % tarotDatabase.length];
 
         const container = document.getElementById("card-container");
+        container.classList.add("flipped");
         
         setTimeout(() => {
             document.getElementById("card-img").src = selected.img;
