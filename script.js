@@ -1,11 +1,15 @@
 let tarotDatabase = [];
 
+// Hàm lấy dữ liệu từ Google Sheets
 async function fetchTarotData() {
-    const url = "https://script.google.com/macros/s/AKfycbyG9qXtPvxK7mB1iogWuMm-FP3E-UqVmuWybN4zGllNa3YPrm9zvnmxHene5W6OcPqc/exec";
+    // URL đã deploy của bạn
+    const url = "https://script.google.com/macros/s/AKfycbz2kQZGW-bINtu1-ARK6JhIpjzborrz3_zTRg3buL-SK5bqyebzD8RrSOGGqaNaUMaA/exec";
     try {
         const response = await fetch(url);
         tarotDatabase = await response.json();
-    } catch (error) { alert("Không tải được dữ liệu, hãy kiểm tra kết nối!"); }
+    } catch (error) { 
+        alert("Không tải được dữ liệu từ Google Sheets!"); 
+    }
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -21,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const dob = document.getElementById("dobInput").value;
         const num = parseInt(document.getElementById("luckyNumInput").value);
         
-        if (!name || !dob || !num || tarotDatabase.length === 0) return alert("Vui lòng nhập đủ thông tin hoặc chờ dữ liệu tải!");
+        if (!name || !dob || !num || tarotDatabase.length === 0) return alert("Vui lòng nhập đủ thông tin hoặc chờ dữ liệu tải xong!");
 
         const [year, month, day] = dob.split('-').map(Number);
         const zodiac = getZodiacSign(day, month);
@@ -32,10 +36,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         bgMusic.play();
 
         const sumDob = dob.replace(/-/g, '').split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
-        const selected = tarotDatabase[(sumDob + num) % tarotDatabase.length];
+        const index = (sumDob + num) % tarotDatabase.length;
+        const selected = tarotDatabase[index];
 
         setTimeout(() => {
-            document.getElementById("card-img").src = selected.img;
+            // Lấy link ảnh/tên file từ Google Sheets (cột 2 là 'img')
+            document.getElementById("card-img").src = selected.img; 
             document.getElementById("result").textContent = `${name} (${zodiac}): ${selected.name}`;
             document.getElementById("advice").textContent = selected.desc;
         }, 400);
