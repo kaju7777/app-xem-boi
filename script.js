@@ -1,4 +1,3 @@
-// Tải theme và lịch sử khi mở web
 window.onload = function() {
     loadHistory();
     if (localStorage.getItem("theme") === "light") {
@@ -6,24 +5,29 @@ window.onload = function() {
     }
 };
 
-// Logic đổi theme
+// Đổi Theme
 document.getElementById("themeBtn").addEventListener("click", function() {
     document.body.classList.toggle("light-theme");
     localStorage.setItem("theme", document.body.classList.contains("light-theme") ? "light" : "dark");
 });
 
-// Logic bói toán
+// Logic xem bói
 document.getElementById("xemBoiBtn").addEventListener("click", function() {
     const name = document.getElementById("nameInput").value.trim();
     if (!name) return alert("Nhập tên đi bạn ơi!");
 
     const resultDisplay = document.getElementById("result");
+    const container = document.querySelector(".container");
+    
+    // Phát âm thanh
     const audio = new Audio('magic.mp3');
     audio.play().catch(() => {});
 
+    container.classList.add('shake');
     resultDisplay.textContent = "🔮 Đang kết nối vũ trụ...";
     
     setTimeout(() => {
+        container.classList.remove('shake');
         const ketQua = ["May mắn bất ngờ!", "Sắp có tin vui tiền bạc.", "Gặp quý nhân.", "Cẩn thận đi đường.", "Có người thầm thương."];
         let sum = 0;
         for (let i = 0; i < name.length; i++) sum += name.charCodeAt(i);
