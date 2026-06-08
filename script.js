@@ -5,12 +5,17 @@ document.getElementById("xemBoiBtn").addEventListener("click", function() {
 
     if (!name) return alert("Nhập tên đi bạn ơi!");
 
-    // 1. Phát âm thanh (cần file magic.mp3 trong thư mục)
+    // 1. Phát âm thanh
     const audio = new Audio('magic.mp3');
-    audio.play().catch(() => console.log("Cần tương tác với trình duyệt để phát âm thanh"));
+    audio.play().catch(error => console.log("Trình duyệt chặn âm thanh tự động:", error));
 
-    // 2. Thêm hiệu ứng rung lắc cho container
+    // 2. Thêm hiệu ứng rung lắc
     container.classList.add('shake');
+    
+    // 3. Hiệu ứng chữ
+    resultDisplay.classList.remove('fade-in');
+    void resultDisplay.offsetWidth; // Trigger reflow để chạy lại animation
+    resultDisplay.classList.add('fade-in');
     
     resultDisplay.textContent = "🔮 Đang kết nối vũ trụ...";
     
