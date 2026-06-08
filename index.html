@@ -2,13 +2,13 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔮 Tarot Tiên Tri</title>
-    <link rel="stylesheet" href="style.css?v=2.1">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <button id="themeBtn" class="btn-theme">🌙 Đổi Theme</button>
+        <button id="musicToggleBtn" class="btn-theme">🎵 Nhạc: Bật/Tắt</button>
         <h1>🔮 Tarot Tiên Tri</h1>
         
         <input type="text" id="nameInput" placeholder="Tên của bạn">
@@ -25,13 +25,15 @@
         
         <h2 id="result" class="fade-in"></h2>
         <p id="advice" style="font-style: italic;"></p>
-
-        <div id="history-section">
-            <h3>Lịch sử bói:</h3>
-            <ul id="historyList"></ul>
-            <button id="clearBtn" class="btn-clear">Xóa lịch sử</button>
-        </div>
     </div>
-    <script src="script.js?v=2.1"></script>
+
+    <audio id="bgMusic" loop>
+        <source src="background.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="flipSound">
+        <source src="flip.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
 </body>
 </html>
