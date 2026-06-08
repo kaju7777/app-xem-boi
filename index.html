@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔮 Tarot Tiên Tri</title>
-    <link rel="stylesheet" href="style.css?v=2.0">
+    <link rel="stylesheet" href="style.css?v=2.1">
 </head>
 <body>
     <div class="container">
@@ -24,7 +24,14 @@
         </div>
         
         <h2 id="result" class="fade-in"></h2>
+        <p id="advice" style="font-style: italic;"></p>
+
+        <div id="history-section">
+            <h3>Lịch sử bói:</h3>
+            <ul id="historyList"></ul>
+            <button onclick="clearHistory()" class="btn-clear">Xóa lịch sử</button>
+        </div>
     </div>
-    <script src="script.js?v=2.0"></script>
+    <script src="script.js?v=2.1"></script>
 </body>
 </html>

@@ -5,30 +5,54 @@ const tarotDatabase = [
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Logic đổi theme
+    loadHistory();
+    if (localStorage.getItem("theme") === "light") document.body.classList.add("light-theme");
+
     document.getElementById("themeBtn").addEventListener("click", () => {
         document.body.classList.toggle("light-theme");
+        localStorage.setItem("theme", document.body.classList.contains("light-theme") ? "light" : "dark");
     });
 
-    // Logic xem bài
     document.getElementById("xemBoiBtn").addEventListener("click", () => {
+        const name = document.getElementById("nameInput").value.trim();
         const dob = document.getElementById("dobInput").value;
         const num = parseInt(document.getElementById("luckyNumInput").value);
         
-        if (!dob || !num) return alert("Nhập đủ ngày sinh và số may mắn nhé!");
+        if (!name || !dob || !num) return alert("Vui lòng nhập đầy đủ thông tin!");
 
         const sumDob = dob.replace(/-/g, '').split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
-        const index = (sumDob + num) % tarotDatabase.length;
-        const selected = tarotDatabase[index];
+        const selected = tarotDatabase[(sumDob + num) % tarotDatabase.length];
 
         const container = document.getElementById("card-container");
-        const cardImg = document.getElementById("card-img");
-
         container.classList.add("flipped");
         
         setTimeout(() => {
-            cardImg.src = selected.img;
-            document.getElementById("result").textContent = `${selected.name}: ${selected.desc}`;
+            document.getElementById("card-img").src = selected.img;
+            document.getElementById("result").textContent = `${name}: ${selected.name}`;
+            document.getElementById("advice").textContent = selected.desc;
+            saveToHistory(name, selected.name);
         }, 400);
     });
 });
+
+function saveToHistory(name, result) {
+    let history = JSON.parse(localStorage.getItem('tarotHistory') || "[]");
+    history.unshift({name, result});
+    localStorage.setItem('tarotHistory', JSON.stringify(history.slice(0, 5)));
+    loadHistory();
+}
+
+function loadHistory() {
+    const list = document.getElementById("historyList");
+    list.innerHTML = "";
+    JSON.parse(localStorage.getItem('tarotHistory') || "[]").forEach(item => {
+        let li = document.createElement("li");
+        li.textContent = `${item.name}: ${item.result}`;
+        list.appendChild(li);
+    });
+}
+
+function clearHistory() {
+    localStorage.removeItem('tarotHistory');
+    loadHistory();
+}
