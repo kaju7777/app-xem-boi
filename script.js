@@ -11,18 +11,18 @@ const tarotDatabase = [
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Theme toggle
+    // Theme toggle
     document.getElementById("themeBtn").addEventListener("click", () => {
         document.body.classList.toggle("light-theme");
     });
 
-    // 2. Nhạc nền
+    // Nhạc nền
     const bgMusic = document.getElementById("bgMusic");
     document.getElementById("musicToggleBtn").addEventListener("click", () => {
         bgMusic.paused ? bgMusic.play() : bgMusic.pause();
     });
 
-    // 3. Xem bài
+    // Xem bài
     document.getElementById("xemBoiBtn").addEventListener("click", () => {
         const name = document.getElementById("nameInput").value.trim();
         const dob = document.getElementById("dobInput").value;
@@ -30,12 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (!name || !dob || !num) return alert("Vui lòng nhập đầy đủ thông tin!");
 
-        // Phát nhạc khi bắt đầu
-        bgMusic.volume = 0.3;
-        bgMusic.play();
+        // Lấy cung hoàng đạo
+        const [year, month, day] = dob.split('-').map(Number);
+        const zodiac = getZodiacSign(day, month);
 
         // Hiệu ứng lắc
         const container = document.getElementById("card-container");
+        container.style.transition = "transform 0.1s";
         container.style.transform = "rotate(5deg)";
         setTimeout(() => { container.style.transform = "rotate(-5deg)"; }, 100);
         setTimeout(() => { container.style.transform = "rotate(0deg)"; }, 200);
@@ -51,12 +52,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         setTimeout(() => {
             document.getElementById("card-img").src = selected.img;
-            document.getElementById("result").textContent = `${name}: ${selected.name}`;
+            document.getElementById("result").textContent = `${name} (${zodiac}): ${selected.name}`;
             document.getElementById("advice").textContent = selected.desc;
         }, 400);
     });
 });
-// Thêm hàm này vào cuối file script.js
+
 function getZodiacSign(day, month) {
     if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) return "Bảo Bình";
     if ((month == 2 && day >= 19) || (month == 3 && day <= 20)) return "Song Ngư";
@@ -71,21 +72,3 @@ function getZodiacSign(day, month) {
     if ((month == 11 && day >= 22) || (month == 12 && day <= 21)) return "Nhân Mã";
     return "Ma Kết";
 }
-
-// Cập nhật bên trong sự kiện click của nút xemBoiBtn
-document.getElementById("xemBoiBtn").addEventListener("click", () => {
-    const dob = document.getElementById("dobInput").value; // Format: YYYY-MM-DD
-    if (!dob) return alert("Vui lòng chọn ngày sinh!");
-    
-    // Tách ngày tháng từ dob
-    const [year, month, day] = dob.split('-').map(Number);
-    const zodiac = getZodiacSign(day, month);
-
-    // ... (logic cũ: lấy lá bài)
-
-    setTimeout(() => {
-        // Cập nhật kết quả hiển thị
-        document.getElementById("result").textContent = `${name} (${zodiac}): ${selected.name}`;
-        document.getElementById("advice").textContent = selected.desc;
-    }, 400);
-});
