@@ -1,5 +1,18 @@
-window.onload = loadHistory;
+// Tải theme và lịch sử khi mở web
+window.onload = function() {
+    loadHistory();
+    if (localStorage.getItem("theme") === "light") {
+        document.body.classList.add("light-theme");
+    }
+};
 
+// Logic đổi theme
+document.getElementById("themeBtn").addEventListener("click", function() {
+    document.body.classList.toggle("light-theme");
+    localStorage.setItem("theme", document.body.classList.contains("light-theme") ? "light" : "dark");
+});
+
+// Logic bói toán
 document.getElementById("xemBoiBtn").addEventListener("click", function() {
     const name = document.getElementById("nameInput").value.trim();
     if (!name) return alert("Nhập tên đi bạn ơi!");

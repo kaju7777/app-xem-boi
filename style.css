@@ -1,31 +1,40 @@
+:root {
+    --bg-color: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    --text-color: white;
+    --container-bg: rgba(255, 255, 255, 0.1);
+}
+
+.light-theme {
+    --bg-color: linear-gradient(135deg, #ffffff, #e0eafc);
+    --text-color: #333;
+    --container-bg: rgba(0, 0, 0, 0.05);
+}
+
 body {
-    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-    color: white;
+    background: var(--bg-color);
+    color: var(--text-color);
     font-family: 'Segoe UI', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
+    transition: 0.5s;
 }
 
-.container { text-align: center; width: 300px; }
+.container { text-align: center; width: 300px; padding: 20px; background: var(--container-bg); border-radius: 15px; }
 
-input { padding: 12px; border-radius: 20px; border: none; width: 80%; outline: none; margin-bottom: 10px; }
+input { padding: 12px; border-radius: 20px; border: none; width: 80%; margin-bottom: 10px; outline: none; }
 
-button { padding: 10px 20px; background: #ffcc00; border: none; border-radius: 20px; cursor: pointer; transition: 0.3s; }
+button { padding: 10px 20px; background: #ffcc00; border: none; border-radius: 20px; cursor: pointer; }
 
-#history-section {
-    margin-top: 30px;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    text-align: left;
-}
+.btn-theme { background: #666; color: white; margin-bottom: 10px; font-size: 12px; }
 
-#historyList { color: #ffffff; list-style: none; padding: 0; font-size: 0.9em; }
+#history-section { margin-top: 30px; padding: 15px; background: rgba(0, 0, 0, 0.1); border-radius: 10px; text-align: left; }
 
-.btn-clear { background: #ff4d4d; font-size: 10px; margin-top: 10px; color: white; }
+#historyList { list-style: none; padding: 0; font-size: 0.9em; }
+
+.btn-clear { background: #ff4d4d; color: white; font-size: 10px; margin-top: 10px; }
 
 .fade-in { animation: fadeIn 1s ease-in; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
