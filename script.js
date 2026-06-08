@@ -56,3 +56,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 400);
     });
 });
+// Thêm hàm này vào cuối file script.js
+function getZodiacSign(day, month) {
+    if ((month == 1 && day >= 20) || (month == 2 && day <= 18)) return "Bảo Bình";
+    if ((month == 2 && day >= 19) || (month == 3 && day <= 20)) return "Song Ngư";
+    if ((month == 3 && day >= 21) || (month == 4 && day <= 19)) return "Bạch Dương";
+    if ((month == 4 && day >= 20) || (month == 5 && day <= 20)) return "Kim Ngưu";
+    if ((month == 5 && day >= 21) || (month == 6 && day <= 20)) return "Song Tử";
+    if ((month == 6 && day >= 21) || (month == 7 && day <= 22)) return "Cự Giải";
+    if ((month == 7 && day >= 23) || (month == 8 && day <= 22)) return "Sư Tử";
+    if ((month == 8 && day >= 23) || (month == 9 && day <= 22)) return "Xử Nữ";
+    if ((month == 9 && day >= 23) || (month == 10 && day <= 22)) return "Thiên Bình";
+    if ((month == 10 && day >= 23) || (month == 11 && day <= 21)) return "Bọ Cạp";
+    if ((month == 11 && day >= 22) || (month == 12 && day <= 21)) return "Nhân Mã";
+    return "Ma Kết";
+}
+
+// Cập nhật bên trong sự kiện click của nút xemBoiBtn
+document.getElementById("xemBoiBtn").addEventListener("click", () => {
+    const dob = document.getElementById("dobInput").value; // Format: YYYY-MM-DD
+    if (!dob) return alert("Vui lòng chọn ngày sinh!");
+    
+    // Tách ngày tháng từ dob
+    const [year, month, day] = dob.split('-').map(Number);
+    const zodiac = getZodiacSign(day, month);
+
+    // ... (logic cũ: lấy lá bài)
+
+    setTimeout(() => {
+        // Cập nhật kết quả hiển thị
+        document.getElementById("result").textContent = `${name} (${zodiac}): ${selected.name}`;
+        document.getElementById("advice").textContent = selected.desc;
+    }, 400);
+});
