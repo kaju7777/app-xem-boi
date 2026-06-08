@@ -1,17 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Tải theme và lịch sử
+    // 1. Tải theme và lịch sử
     loadHistory();
+    getDailyAdvice();
     if (localStorage.getItem("theme") === "light") {
         document.body.classList.add("light-theme");
     }
 
-    // Nút đổi theme
+    // 2. Nút đổi theme
     document.getElementById("themeBtn").addEventListener("click", () => {
         document.body.classList.toggle("light-theme");
         localStorage.setItem("theme", document.body.classList.contains("light-theme") ? "light" : "dark");
     });
 
-    // Logic bói
+    // 3. Logic bói
     document.getElementById("xemBoiBtn").addEventListener("click", () => {
         const name = document.getElementById("nameInput").value.trim();
         if (!name) return alert("Nhập tên đi bạn ơi!");
@@ -33,9 +34,22 @@ document.addEventListener('DOMContentLoaded', () => {
             
             resultDisplay.textContent = `${name}: ${prediction}`;
             saveToHistory(name, prediction);
+            getDailyAdvice(); // Lấy lời khuyên mới mỗi lần bói
         }, 2000);
     });
 });
+
+// Hàm lấy lời khuyên từ API
+function getDailyAdvice() {
+    fetch('https://api.quotable.io/random')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("advice").textContent = `💡 Lời khuyên: "${data.content}"`;
+        })
+        .catch(() => {
+            document.getElementById("advice").textContent = "💡 Vũ trụ đang bận, hãy thử lại sau!";
+        });
+}
 
 function saveToHistory(name, prediction) {
     let history = JSON.parse(localStorage.getItem('boiboiHistory') || "[]");
