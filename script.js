@@ -12,13 +12,13 @@ const tarotDatabase = [
 
 document.addEventListener('DOMContentLoaded', () => {
     loadHistory();
-    
-    // Theme toggle
+
+    // 1. Theme toggle
     document.getElementById("themeBtn").addEventListener("click", () => {
         document.body.classList.toggle("light-theme");
     });
 
-    // Xem bài
+    // 2. Xem bài
     document.getElementById("xemBoiBtn").addEventListener("click", () => {
         const name = document.getElementById("nameInput").value.trim();
         const dob = document.getElementById("dobInput").value;
@@ -26,19 +26,19 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (!name || !dob || !num) return alert("Vui lòng nhập đầy đủ thông tin!");
 
-        // 1. Hiệu ứng lắc
+        // Hiệu ứng lắc
         const container = document.getElementById("card-container");
         container.style.transition = "transform 0.1s";
         container.style.transform = "rotate(5deg)";
         setTimeout(() => { container.style.transform = "rotate(-5deg)"; }, 100);
         setTimeout(() => { container.style.transform = "rotate(0deg)"; }, 200);
 
-        // 2. Logic chọn bài
+        // Logic chọn bài
         const sumDob = dob.replace(/-/g, '').split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
         const index = (sumDob + num) % tarotDatabase.length;
         const selected = tarotDatabase[index];
 
-        // 3. Lật bài
+        // Lật bài
         container.classList.add("flipped");
         
         setTimeout(() => {
@@ -48,9 +48,18 @@ document.addEventListener('DOMContentLoaded', () => {
             saveToHistory(name, selected.name);
         }, 400);
     });
+
+    // 3. Xóa lịch sử
+    const clearBtn = document.getElementById("clearBtn");
+    if (clearBtn) {
+        clearBtn.addEventListener("click", () => {
+            localStorage.removeItem('tarotHistory');
+            loadHistory();
+        });
+    }
 });
 
-// Các hàm bổ trợ
+// Các hàm hỗ trợ nằm ngoài DOMContentLoaded
 function saveToHistory(name, result) {
     let history = JSON.parse(localStorage.getItem('tarotHistory') || "[]");
     history.unshift({name, result});
@@ -62,7 +71,8 @@ function loadHistory() {
     const list = document.getElementById("historyList");
     if (!list) return;
     list.innerHTML = "";
-    JSON.parse(localStorage.getItem('tarotHistory') || "[]").forEach(item => {
+    const history = JSON.parse(localStorage.getItem('tarotHistory') || "[]");
+    history.forEach(item => {
         let li = document.createElement("li");
         li.textContent = `${item.name}: ${item.result}`;
         list.appendChild(li);
