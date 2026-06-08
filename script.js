@@ -11,11 +11,18 @@ const tarotDatabase = [
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById("themeBtn").addEventListener("click", () => document.body.classList.toggle("light-theme"));
-    
-    const bgMusic = document.getElementById("bgMusic");
-    document.getElementById("musicToggleBtn").addEventListener("click", () => bgMusic.paused ? bgMusic.play() : bgMusic.pause());
+    // 1. Theme
+    document.getElementById("themeBtn").addEventListener("click", () => {
+        document.body.classList.toggle("light-theme");
+    });
 
+    // 2. Nhạc
+    const bgMusic = document.getElementById("bgMusic");
+    document.getElementById("musicToggleBtn").addEventListener("click", () => {
+        bgMusic.paused ? bgMusic.play() : bgMusic.pause();
+    });
+
+    // 3. Xem bài
     document.getElementById("xemBoiBtn").addEventListener("click", () => {
         const name = document.getElementById("nameInput").value.trim();
         const dob = document.getElementById("dobInput").value;
@@ -23,19 +30,30 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (!name || !dob || !num) return alert("Vui lòng nhập đầy đủ thông tin!");
 
+        // Xử lý Cung hoàng đạo
         const [year, month, day] = dob.split('-').map(Number);
         const zodiac = getZodiacSign(day, month);
+        console.log("Cung của bạn là:", zodiac); // Kiểm tra trong F12 Console
 
+        // Hiệu ứng lắc
         const container = document.getElementById("card-container");
+        container.style.transition = "transform 0.1s";
+        container.style.transform = "rotate(5deg)";
+        setTimeout(() => { container.style.transform = "rotate(-5deg)"; }, 100);
+        setTimeout(() => { container.style.transform = "rotate(0deg)"; }, 200);
+
+        // Logic chọn bài
+        const sumDob = dob.replace(/-/g, '').split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
+        const index = (sumDob + num) % tarotDatabase.length;
+        const selected = tarotDatabase[index];
+
+        // Lật bài
         container.classList.add("flipped");
         document.getElementById("flipSound").play();
-        bgMusic.play();
-
-        const sumDob = dob.replace(/-/g, '').split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
-        const selected = tarotDatabase[(sumDob + num) % tarotDatabase.length];
-
+        
         setTimeout(() => {
             document.getElementById("card-img").src = selected.img;
+            // HIỆN KẾT QUẢ
             document.getElementById("result").textContent = `${name} (${zodiac}): ${selected.name}`;
             document.getElementById("advice").textContent = selected.desc;
         }, 400);
