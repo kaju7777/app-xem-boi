@@ -1,59 +1,41 @@
-const tarotDatabase = [
-    { name: "The Fool", img: "fool.jpg", desc: "Sự khởi đầu mới đầy mạo hiểm." },
-    { name: "The Magician", img: "magician.jpg", desc: "Bạn có đủ công cụ để đạt mục tiêu." },
-    { name: "The High Priestess", img: "priestess.jpg", desc: "Hãy lắng nghe trực giác của bạn." },
-    { name: "The Lovers", img: "lovers.jpg", desc: "Hãy lắng nghe tiếng gọi của trái tim." },
-    { name: "The Chariot", img: "chariot.jpg", desc: "Sự kiên trì sẽ dẫn đến chiến thắng." },
-    { name: "Strength", img: "strength.jpg", desc: "Sức mạnh nội tâm và sự kiên nhẫn." },
-    { name: "The Star", img: "star.jpg", desc: "Hy vọng và sự chữa lành." },
-    { name: "The Moon", img: "moon.jpg", desc: "Đối mặt với những nỗi sợ tiềm ẩn." },
-    { name: "Justice", img: "justice.jpg", desc: "Sự công bằng và trách nhiệm." }
-];
+let tarotDatabase = [];
 
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Theme
-    document.getElementById("themeBtn").addEventListener("click", () => {
-        document.body.classList.toggle("light-theme");
-    });
+async function fetchTarotData() {
+    const url = "https://script.google.com/macros/s/AKfycbyG9qXtPvxK7mB1iogWuMm-FP3E-UqVmuWybN4zGllNa3YPrm9zvnmxHene5W6OcPqc/exec";
+    try {
+        const response = await fetch(url);
+        tarotDatabase = await response.json();
+    } catch (error) { alert("Không tải được dữ liệu, hãy kiểm tra kết nối!"); }
+}
 
-    // 2. Nhạc
+document.addEventListener('DOMContentLoaded', async () => {
+    await fetchTarotData();
+
+    document.getElementById("themeBtn").addEventListener("click", () => document.body.classList.toggle("light-theme"));
+    
     const bgMusic = document.getElementById("bgMusic");
-    document.getElementById("musicToggleBtn").addEventListener("click", () => {
-        bgMusic.paused ? bgMusic.play() : bgMusic.pause();
-    });
+    document.getElementById("musicToggleBtn").addEventListener("click", () => bgMusic.paused ? bgMusic.play() : bgMusic.pause());
 
-    // 3. Xem bài
     document.getElementById("xemBoiBtn").addEventListener("click", () => {
         const name = document.getElementById("nameInput").value.trim();
         const dob = document.getElementById("dobInput").value;
         const num = parseInt(document.getElementById("luckyNumInput").value);
         
-        if (!name || !dob || !num) return alert("Vui lòng nhập đầy đủ thông tin!");
+        if (!name || !dob || !num || tarotDatabase.length === 0) return alert("Vui lòng nhập đủ thông tin hoặc chờ dữ liệu tải!");
 
-        // Xử lý Cung hoàng đạo
         const [year, month, day] = dob.split('-').map(Number);
         const zodiac = getZodiacSign(day, month);
-        console.log("Cung của bạn là:", zodiac); // Kiểm tra trong F12 Console
 
-        // Hiệu ứng lắc
         const container = document.getElementById("card-container");
-        container.style.transition = "transform 0.1s";
-        container.style.transform = "rotate(5deg)";
-        setTimeout(() => { container.style.transform = "rotate(-5deg)"; }, 100);
-        setTimeout(() => { container.style.transform = "rotate(0deg)"; }, 200);
-
-        // Logic chọn bài
-        const sumDob = dob.replace(/-/g, '').split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
-        const index = (sumDob + num) % tarotDatabase.length;
-        const selected = tarotDatabase[index];
-
-        // Lật bài
         container.classList.add("flipped");
         document.getElementById("flipSound").play();
-        
+        bgMusic.play();
+
+        const sumDob = dob.replace(/-/g, '').split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
+        const selected = tarotDatabase[(sumDob + num) % tarotDatabase.length];
+
         setTimeout(() => {
             document.getElementById("card-img").src = selected.img;
-            // HIỆN KẾT QUẢ
             document.getElementById("result").textContent = `${name} (${zodiac}): ${selected.name}`;
             document.getElementById("advice").textContent = selected.desc;
         }, 400);
