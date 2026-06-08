@@ -6,7 +6,8 @@ const tarotDatabase = [
     { name: "The Chariot", img: "chariot.jpg", desc: "Sự kiên trì sẽ dẫn đến chiến thắng." },
     { name: "Strength", img: "strength.jpg", desc: "Sức mạnh nội tâm và sự kiên nhẫn." },
     { name: "The Star", img: "star.jpg", desc: "Hy vọng và sự chữa lành." },
-    { name: "The Moon", img: "moon.jpg", desc: "Đối mặt với những nỗi sợ tiềm ẩn." }
+    { name: "The Moon", img: "moon.jpg", desc: "Đối mặt với những nỗi sợ tiềm ẩn." },
+    { name: "Justice", img: "justice.jpg", desc: "Sự công bằng và trách nhiệm." }
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
