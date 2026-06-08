@@ -1,13 +1,12 @@
-// Hàm hiển thị lại lịch sử khi vừa tải trang
 window.onload = loadHistory;
 
 document.getElementById("xemBoiBtn").addEventListener("click", function() {
     const name = document.getElementById("nameInput").value.trim();
-    if (!name) return alert("Nhập tên đi!");
+    if (!name) return alert("Nhập tên đi bạn ơi!");
 
     const resultDisplay = document.getElementById("result");
     const audio = new Audio('magic.mp3');
-    audio.play();
+    audio.play().catch(() => {});
 
     resultDisplay.textContent = "🔮 Đang kết nối vũ trụ...";
     
@@ -18,16 +17,14 @@ document.getElementById("xemBoiBtn").addEventListener("click", function() {
         const prediction = ketQua[sum % ketQua.length];
         
         resultDisplay.textContent = `${name}: ${prediction}`;
-
-        // Lưu vào LocalStorage
         saveToHistory(name, prediction);
     }, 2000);
 });
 
 function saveToHistory(name, prediction) {
     let history = JSON.parse(localStorage.getItem('boiboiHistory') || "[]");
-    history.unshift({name, prediction}); // Thêm vào đầu danh sách
-    if (history.length > 5) history.pop(); // Chỉ giữ lại 5 kết quả gần nhất
+    history.unshift({name, prediction});
+    if (history.length > 5) history.pop();
     localStorage.setItem('boiboiHistory', JSON.stringify(history));
     loadHistory();
 }
@@ -38,7 +35,7 @@ function loadHistory() {
     let history = JSON.parse(localStorage.getItem('boiboiHistory') || "[]");
     history.forEach(item => {
         let li = document.createElement("li");
-        li.textContent = `${item.name}: ${item.prediction}`;
+        li.textContent = `• ${item.name}: ${item.prediction}`;
         historyList.appendChild(li);
     });
 }

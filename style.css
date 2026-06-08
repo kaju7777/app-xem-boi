@@ -5,53 +5,27 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
 }
 
-.container { text-align: center; }
+.container { text-align: center; width: 300px; }
 
-input {
-    padding: 12px;
-    border-radius: 20px;
-    border: none;
-    width: 250px;
-    outline: none;
-}
+input { padding: 12px; border-radius: 20px; border: none; width: 80%; outline: none; margin-bottom: 10px; }
 
-button {
-    padding: 10px 20px;
-    background: #ffcc00;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.3s;
+button { padding: 10px 20px; background: #ffcc00; border: none; border-radius: 20px; cursor: pointer; transition: 0.3s; }
+
+#history-section {
+    margin-top: 30px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    text-align: left;
 }
 
-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 15px #ffcc00;
-}
+#historyList { color: #ffffff; list-style: none; padding: 0; font-size: 0.9em; }
 
-/* Hiệu ứng mờ dần xuất hiện */
-.fade-in {
-    animation: fadeIn 1s ease-in;
-}
+.btn-clear { background: #ff4d4d; font-size: 10px; margin-top: 10px; color: white; }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-/* Hiệu ứng rung lắc */
-.shake {
-    animation: shake 0.5s infinite;
-}
-
-@keyframes shake {
-    0% { transform: translate(1px, 1px) rotate(0deg); }
-    10% { transform: translate(-1px, -2px) rotate(-1deg); }
-    20% { transform: translate(-3px, 0px) rotate(1deg); }
-    30% { transform: translate(3px, 2px) rotate(0deg); }
-    40% { transform: translate(1px, -1px) rotate(1deg); }
-    50% { transform: translate(-1px, 2px) rotate(-1deg); }
-}
+.fade-in { animation: fadeIn 1s ease-in; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

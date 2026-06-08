@@ -2,20 +2,22 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <title>App Xem Bói Vui</title>
     <link rel="stylesheet" href="style.css">
-    <title>App Xem Bói</title>
 </head>
 <body>
     <div class="container">
         <h1>🔮 Xem Bói Vận Mệnh</h1>
         <input type="text" id="nameInput" placeholder="Nhập tên người cần bói">
         <button id="xemBoiBtn">Xem kết quả</button>
+        
         <h2 id="result" class="fade-in"></h2>
+
         <div id="history-section">
-    <h3>Lịch sử bói:</h3>
-    <ul id="historyList"></ul>
-    <button onclick="clearHistory()" style="background:#ff4d4d; font-size: 10px;">Xóa lịch sử</button>
-</div>
+            <h3>Lịch sử bói:</h3>
+            <ul id="historyList"></ul>
+            <button onclick="clearHistory()" class="btn-clear">Xóa lịch sử</button>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
